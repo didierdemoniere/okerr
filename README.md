@@ -32,7 +32,7 @@ or
 import "okerr/globals";
 ```
 
-will import `Ok`, `Err` as globals and add the `toResult` method to Promises.
+will import `Ok`, `Err` as global functions and add the `toResult` method to Promises.
 
 ## API
 
@@ -52,6 +52,7 @@ interface Input {
   email: string;
 }
 
+// function validate(input: Input): Err<ValidationErrors> | Ok<Input>
 function validate(input: Input) {
   if (!input.name) {
     return Err(ValidationErrors.NameEmpty);
@@ -63,44 +64,76 @@ function validate(input: Input) {
 }
 ```
 
-### unwrap
+### toResult
+
+catch exceptions from a Promise<T> into a Promise<Ok<T> | Err<E>>
 
 ```ts
-const { error, data } = validate({ name: "John", email: "john@email.com" });
-if (error) {
-  toast(translate(error));
-  return;
-}
+  import { toResult } from 'okerr';
+  // or
+  import 'okerr/globals';
 
-console.log(data);
+  async function someAsyncFunction(value: string): string {
+    ...
+  }
+
+  const result = await toResult<ApiErrors>(someAsyncFunction(value));
+  // or
+  const result = await someAsyncFunction(value).toResult<ApiErrors>();
+  // result: Ok<string> | Err<ApiErrors>
+```
+
+### mapOk/mapErr
+
+naturally bubble errors up the callstack until you want to deal with them.
+
+notice how the following function do not throw
+and instead describe precisely all errors it might return without any visible error handling.
+
+```ts
+// function getItemsFromApi(input: Input): Promise<Err<ValidationErrors> | Ok<string> | Err<ApiErrors>>
+async function getItemsFromApi(input: Input) {
+  const validateResult = validate(input);
+  // validateResult: Err<ValidationErrors> | Ok<Input>
+
+  const apiCallResult = await validateResult.mapOk(async (value) => {
+    return await someAsyncFunction(value).toResult<ApiErrors>();
+  });
+  // apiCallResult: Err<ValidationErrors> | Ok<string> | Err<ApiErrors>
+
+  return apiCallResult;
+}
 ```
 
 ### isErr
 
 ```ts
 const result = validate({ name: "John", email: "john@email.com" });
+// result: Err<ValidationErrors> | Ok<Input>
 if (result.isErr()) {
+  // result.error: ValidationErrors
   toast(translate(result.error));
   return;
 }
 
+// result.data: Input
 console.log(result.data);
 ```
 
-### toResult
-
-transform a Promise<T> into a Promise<Ok<T> | Err<E>>
+### unwrap
 
 ```ts
-  import { toResult } from 'okerr';
-  // import 'okerr/globals';
+const { error, data } = validate({ name: "John", email: "john@email.com" });
+// error: ValidationErrors | undefined
+// data: Input | undefined
 
-  async function someAsyncFunction(value) {
-    ...
-  }
-
-  const { error, data } = await toResult<ApiErrors>(someAsyncFunction(value));
-  // const { error, data } = await someAsyncFunction(value).toResult<ApiErrors>();
+if (error) {
+  // error: ValidationErrors
+  toast(translate(error));
+  return;
+}
+// data: Input
+console.log(data);
 ```
 
 ### resultify
@@ -111,20 +144,8 @@ transform a function returning Promise<T> into a function returning Promise<Ok<T
 import { resultify } from "okerr";
 
 const someAsyncResultFunction = resultify(someAsyncFunction);
+// someAsyncResultFunction: <E = unknown>(value: string) => Promise<Ok<string> | Err<E>>
 
-const { error, data } = await someAsyncResultFunction(value);
-```
-
-### mapOk/mapErr
-
-```ts
-async function getItemsFromApi(input: Input) {
-  return validate(input).mapOk(async (value) => {
-    const result = await someAsyncFunction(value).toResult<ApiErrors>();
-    if (result.isErr()) {
-      return result;
-    }
-    return doSomeStuff(result.data);
-  });
-}
+const result = await someAsyncResultFunction<ApiErrors>(value);
+// result: Ok<string> | Err<ApiErrors>
 ```

@@ -1,8 +1,8 @@
 import { isPromise, isResult, Result } from "./utils";
 
 class ERR<E> {
-  public data: undefined;
-  constructor(public error: E) {}
+  public readonly data: undefined;
+  constructor(public readonly error: E) {}
 
   public isErr(): this is Err<E> {
     return true;

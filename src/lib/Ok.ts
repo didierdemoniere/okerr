@@ -1,8 +1,8 @@
 import { isPromise, isResult, Result } from "./utils";
 
 class OK<T> {
-  public error: undefined;
-  constructor(public data: T) {}
+  public readonly error: undefined;
+  constructor(public readonly data: T) {}
 
   public isErr(): false {
     return false;

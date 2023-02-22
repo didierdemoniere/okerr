@@ -1,6 +1,6 @@
 {
   "name": "okerr",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A practical Result type inspired by Rust Result.",
   "main": "build/main/index.js",
   "types": "build/module/index.d.ts",
