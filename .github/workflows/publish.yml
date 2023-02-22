@@ -24,7 +24,7 @@ jobs:
         id: cache
         with:
           path: |
-            */*/build
+            build
           key: ${{ runner.os }}-build-${{ github.ref_name }}-${{ github.sha }}
 
       - name: Check cache hit
