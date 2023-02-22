@@ -148,4 +148,11 @@ const someAsyncResultFunction = resultify(someAsyncFunction);
 
 const result = await someAsyncResultFunction<ApiErrors>(value);
 // result: Ok<string> | Err<ApiErrors>
+
+// or
+const someAsyncResultFunction = resultify(someAsyncFunction)<ApiErrors>;
+// someAsyncResultFunction: (value: string) => Promise<Ok<string> | Err<ApiErrors>>
+
+const result = await someAsyncResultFunction(value);
+// result: Ok<string> | Err<ApiErrors>
 ```
