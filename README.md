@@ -1,4 +1,4 @@
-# OkErr
+<div style="text-align:center"><img src="https://raw.githubusercontent.com/didierdemoniere/okerr/main/logo.png" /></div>
 
 A practical Result type inspired by Rust Result.
 
