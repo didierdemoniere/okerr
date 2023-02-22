@@ -1,0 +1,40 @@
+name: Publish
+
+on:
+  workflow_run:
+    workflows: [Build And Tests]
+    branches: [main]
+    types:
+      - completed
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    container: ddemoniere/zx:19.5.0-bullseye
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Restore builds
+        uses: actions/cache/restore@v3
+        id: cache
+        with:
+          path: |
+            */*/build
+          key: ${{ runner.os }}-build-${{ github.ref_name }}-${{ github.sha }}
+
+      - name: Check cache hit
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: exit 1
+
+      - name: Set publishing config
+        run: pnpm config set '//registry.npmjs.org/:_authToken' "${NODE_AUTH_TOKEN}"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish
+        run: pnpm publish --access=public --no-git-checks

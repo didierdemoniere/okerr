@@ -1,0 +1,52 @@
+{
+  "name": "okerr",
+  "version": "1.0.0",
+  "description": "A practical Result type inspired by Rust Result.",
+  "main": "build/main/index.js",
+  "types": "build/module/index.d.ts",
+  "module": "build/module/index.js",
+  "repository": "https://github.com/didierdemoniere/okerr",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./build/module/index.d.ts"
+      ],
+      "globals": [
+        "./build/module/globals.d.ts"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "import": "./build/module/index.js",
+      "require": "./build/main/index.js"
+    },
+    "./globals": {
+      "import": "./build/module/globals.js",
+      "require": "./build/main/globals.js"
+    }
+  },
+  "scripts": {
+    "build": "rimraf ./build && run-p build:*",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p tsconfig.module.json",
+    "test": "jest"
+  },
+  "keywords": [
+    "rust",
+    "result",
+    "either",
+    "rop",
+    "error-handling"
+  ],
+  "author": "Didier Demoniere <didier.demoniere@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "jest": "^29.4.3",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^4.1.2",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.9.5"
+  }
+}
