@@ -1,6 +1,6 @@
-import { Ok } from "./lib/Ok";
-import { Err } from "./lib/Err";
-import { toResult } from "./lib/toResult";
+import { Ok } from "./lib/Ok.js";
+import { Err } from "./lib/Err.js";
+import { toResult } from "./lib/toResult.js";
 
 declare global {
   function Ok<T>(value: T): Ok<T>;

@@ -1,4 +1,4 @@
-import { isPromise, isResult, Result } from "./utils";
+import { isPromise, isResult, Result } from "./utils.js";
 
 class ERR<E> {
   public readonly data: undefined;

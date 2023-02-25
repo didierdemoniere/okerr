@@ -1,5 +1,5 @@
-import { Ok } from "./Ok";
-import { Err } from "./Err";
+import { Ok } from "./Ok.js";
+import { Err } from "./Err.js";
 
 export function toResult<T, E = unknown>(
   promise: Promise<T>

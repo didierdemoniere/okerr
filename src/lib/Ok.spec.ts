@@ -1,4 +1,4 @@
-import { Ok } from "./Ok";
+import { Ok } from "./Ok.js";
 
 describe("Ok", () => {
   test("Ok is a function", () => {

@@ -1,4 +1,4 @@
-import { Err } from "./Err";
+import { Err } from "./Err.js";
 
 describe("Err", () => {
   test("Err is a function", () => {

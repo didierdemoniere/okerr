@@ -1,6 +1,6 @@
-import { Ok } from "./Ok";
-import { Err } from "./Err";
-import { toResult } from "./toResult";
+import { Ok } from "./Ok.js";
+import { Err } from "./Err.js";
+import { toResult } from "./toResult.js";
 
 type PromiseType<T extends Promise<any>> = T extends Promise<infer X>
   ? X

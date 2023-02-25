@@ -1,6 +1,6 @@
 {
   "name": "okerr",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A practical Result type inspired by Rust Result.",
   "main": "build/main/index.js",
   "types": "build/module/index.d.ts",
@@ -28,8 +28,8 @@
   },
   "scripts": {
     "build": "rimraf ./build && run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json",
+    "build:main": "tsc -p tsconfig.json && echo '{\"type\": \"commonjs\"}' > ./build/main/package.json",
+    "build:module": "tsc -p tsconfig.module.json && echo '{\"type\": \"module\"}' > ./build/module/package.json",
     "test": "jest"
   },
   "keywords": [
