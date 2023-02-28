@@ -9,6 +9,8 @@ declare global {
   interface Promise<T> {
     toResult<E>(): ReturnType<typeof toResult<T, E>>;
   }
+
+  type Result<T, E = unknown> = Ok<T> | Err<E>;
 }
 
 globalThis.Ok = Ok;

@@ -2,6 +2,9 @@
 
 A practical Result type inspired by Rust Result.
 
+![Build & tests](https://github.com/didierdemoniere/okerr/actions/workflows/build-and-tests.yml/badge.svg)
+![npm bundle size](https://img.shields.io/bundlephobia/minzip/okerr)
+
 ## Why
 
 Errors are normal in an applications lifecycle, they should be regular values and we should be able to know them by looking at function type signatures.
@@ -32,7 +35,7 @@ or
 import "okerr/globals";
 ```
 
-will import `Ok`, `Err` as global functions and add the `toResult` method to Promises.
+will import the `Ok` and `Err` global functions, `Result` type and add the `toResult` method to Promises.
 
 ## API
 
