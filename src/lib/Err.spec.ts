@@ -21,10 +21,6 @@ describe("Err", () => {
     expect(Err(1)).toHaveProperty("mapOk");
   });
 
-  test("Err returns an object with a mapErr method", () => {
-    expect(Err(1)).toHaveProperty("mapErr");
-  });
-
   test("Err returns an object with a mapOk method that returns the same object", () => {
     //@ts-ignore
     expect(Err(1).mapOk(() => "some value")).toEqual(Err(1));

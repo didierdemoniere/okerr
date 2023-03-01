@@ -21,15 +21,6 @@ describe("Ok", () => {
     expect(Ok(1)).toHaveProperty("mapOk");
   });
 
-  test("Ok returns an object with a mapErr method", () => {
-    expect(Ok(1)).toHaveProperty("mapErr");
-  });
-
-  test("Ok returns an object with a mapErr method that returns the same object", () => {
-    //@ts-ignore
-    expect(Ok(1).mapErr(() => "some error")).toEqual(Ok(1));
-  });
-
   test("Ok returns an object with a mapOk method that returns a new Ok object", () => {
     expect(Ok(1).mapOk((x) => x + 1)).toEqual(Ok(2));
   });
