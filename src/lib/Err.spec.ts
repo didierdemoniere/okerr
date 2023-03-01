@@ -29,20 +29,4 @@ describe("Err", () => {
     //@ts-ignore
     expect(Err(1).mapOk(() => "some value")).toEqual(Err(1));
   });
-
-  test("Err returns an object with a mapErr method that returns a new Err object", () => {
-    expect(Err(1).mapErr((x) => x + 1)).toEqual(Err(2));
-  });
-
-  test("Err returns an object with a mapErr method that support chaining", () => {
-    expect(Err(1).mapErr((x) => Err(x + 4))).toEqual(Err(5));
-  });
-
-  test("Err returns an object with a mapErr method that support chaining with a promise", async () => {
-    expect(await Err(1).mapErr(async (x) => x + 4)).toEqual(Err(5));
-  });
-
-  test("Err returns an object with a mapErr method that support double chaining", async () => {
-    expect(await Err(1).mapErr(async (x) => Err(x + 4))).toEqual(Err(5));
-  });
 });

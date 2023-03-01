@@ -86,7 +86,7 @@ catch exceptions from a Promise<T> into a Promise<Ok<T> | Err<E>>
   // result: Ok<string> | Err<ApiErrors>
 ```
 
-### mapOk/mapErr
+### mapOk
 
 naturally bubble errors up the callstack until you want to deal with them.
 

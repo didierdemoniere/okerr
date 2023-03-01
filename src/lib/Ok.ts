@@ -19,10 +19,6 @@ class OK<T> {
     }
     return isResult(nextVal) ? (nextVal as any) : new OK(nextVal);
   }
-
-  mapErr(): Ok<T> {
-    return this;
-  }
 }
 
 type chainedOK<T> = T extends Result<any, any> ? T : Ok<T>;
