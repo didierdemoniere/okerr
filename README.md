@@ -82,6 +82,8 @@ catch exceptions from a Promise<T> into a Promise<Ok<T> | Err<E>>
 
   const result = await toResult<ApiErrors>(someAsyncFunction(value));
   // or
+   const result = await toResult(someAsyncFunction(value), e => e as ApiErrors);
+  // or if import 'okerr/globals'
   const result = await someAsyncFunction(value).toResult<ApiErrors>();
   // result: Ok<string> | Err<ApiErrors>
 ```
@@ -158,4 +160,28 @@ const someAsyncResultFunction = resultify(someAsyncFunction)<ApiErrors>;
 
 const result = await someAsyncResultFunction(value);
 // result: Ok<string> | Err<ApiErrors>
+```
+
+### Result
+
+keep return types readable by merging Ok and Err types
+
+```ts
+import { Result } from "okerr";
+// import 'okerr/globals';
+
+// function getItemsFromApi(input: Input): Promise<Result<string, ValidationErrors | ApiErrors>>
+async function getItemsFromApi(
+  input: Input
+): Result<string, ValidationErrors | ApiErrors> {
+  const validateResult = validate(input);
+  // validateResult: Err<ValidationErrors> | Ok<Input>
+
+  const apiCallResult = await validateResult.mapOk(async (value) => {
+    return await someAsyncFunction(value).toResult<ApiErrors>();
+  });
+  // apiCallResult: Err<ValidationErrors> | Ok<string> | Err<ApiErrors>
+
+  return apiCallResult;
+}
 ```

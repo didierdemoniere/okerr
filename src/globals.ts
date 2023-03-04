@@ -7,7 +7,7 @@ declare global {
   function Err<E>(error: E): Err<E>;
 
   interface Promise<T> {
-    toResult<E>(): ReturnType<typeof toResult<T, E>>;
+    toResult<E>(fn?: (reason: any) => E): ReturnType<typeof toResult<T, E>>;
   }
 
   type Result<T, E = unknown> = Ok<T> | Err<E>;
@@ -16,8 +16,8 @@ declare global {
 globalThis.Ok = Ok;
 globalThis.Err = Err;
 
-Promise.prototype.toResult = function () {
-  return toResult(this);
+Promise.prototype.toResult = function (fn) {
+  return toResult(this, fn);
 };
 
 export {};
